@@ -30,16 +30,31 @@ def analyse(request):
     
 
 request = {
-    'option' : 'mean',
+    'option' : 'median',
     'category' : 'NOC',
     'value' : 'AUT',
     'numRef' : 'Height'
 }
 print(analyse(request))
 request = {
-    'option' : 'mean',
+    'option' : 'median',
     'category' : 'Year',
     'value' : 1992,
+    'numRef' : 'Height'
+}
+print(analyse(request))
+request = {
+    'option' : 'median',
+    'category' : 'Year',
+    'value' : 2016,
+    'numRef' : 'Height'
+}
+olympics_df = original_olympics_df
+print(analyse(request))
+request = {
+    'option' : 'median',
+    'category' : 'NOC',
+    'value' : 'AUT',
     'numRef' : 'Height'
 }
 print(analyse(request))
