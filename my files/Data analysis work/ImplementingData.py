@@ -1,6 +1,7 @@
 # Import modules
 import pandas as pd
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 # imports data
 olympics_df = pd.read_csv('my files/Data analysis work/athlete_events.csv')
@@ -16,15 +17,31 @@ def analyse(request):
     value = request['value']
     option = request['option']
     numRef = request['numRef']
+    plot = request['plot']
     global olympics_df
+
     olympics_df = olympics_df[olympics_df[category] == value]
     olympics_df.dropna(subset=[request['numRef']])
     if option == 'mean':
         mean = olympics_df[numRef].mean()
-        return mean
+        output = mean
     elif option == 'median':
         median = olympics_df[numRef].median()
-        return median
+        output = median
+    if plot == True:
+        olympics_df.plot(
+            kind='scatter',
+            x='Year',
+            y='Height',
+            color='blue',
+            alpha=0.3,
+            title='Height over time for athletes'
+            )
+        z = np.polyfit(olympics_df['Year'], olympics_df['Height'], 1)
+        p = np.poly1d(z)
+        plt.plot(olympics_df['Year'], p('Year'))
+        plt.show()
+    return output
      
         
     
@@ -33,28 +50,8 @@ request = {
     'option' : 'median',
     'category' : 'NOC',
     'value' : 'AUT',
-    'numRef' : 'Height'
+    'numRef' : 'Height',
+    'plot' : True,
+    'plotType' : 'scatter'
 }
-print(analyse(request))
-request = {
-    'option' : 'median',
-    'category' : 'Year',
-    'value' : 1992,
-    'numRef' : 'Height'
-}
-print(analyse(request))
-request = {
-    'option' : 'median',
-    'category' : 'Year',
-    'value' : 2016,
-    'numRef' : 'Height'
-}
-olympics_df = original_olympics_df
-print(analyse(request))
-request = {
-    'option' : 'median',
-    'category' : 'NOC',
-    'value' : 'AUT',
-    'numRef' : 'Height'
-}
-print(analyse(request))
+analyse(request)
