@@ -29,20 +29,17 @@ def analyse(request):
         median = olympics_df[numRef].median()
         output = median
     if plot == True:
-        '''olympics_df.plot(
+        olympics_df.plot(
             kind='scatter',
             x='Year',
             y='Height',
             color='blue',
             alpha=0.3,
             title='Height over time for athletes'
-            )'''
-        x = np.array(olympics_df['Year'])
-        y = np.array(olympics_df['Height'])
-        plt.scatter(x, y)
-        z = np.polyfit(x, y, 1)
+            )
+        z = np.polyfit(olympics_df['Year'], olympics_df['Height'], 1)
         p = np.poly1d(z)
-        plt.plot(x, p(x))
+        plt.plot(olympics_df['Year'], p(olympics_df['Year']))
         plt.show()
     return output
      
