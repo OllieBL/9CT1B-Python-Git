@@ -50,15 +50,27 @@ def analyse(request):
     return output
      
 def UI():
-    input('calculations?')
-    input('median or  ')  
+    while True:
+        if input('calculations? True or False ') == True:
+            option = input('median, mean, mode, max or minimum? ')
+        if type(filter) != bool and type(option) == str:
+            print('please enter a valid option')
+        else:
+            break
+    while True:
+        filter = input('Would you like to filter? True or False ')
+        if type(filter) != bool:
+            print('please enter a valid option')
+        else:
+            break
+    while True:
+        if filter == True:
+            filter = input('What column to filter? Age, Height,  ')
+            if type(filter) != bool:
+                print('please enter a valid option')
+            else:
+                break
 
-request = {
-    'option' : 'median',
-    'sort' : True,
-    'category' : 'Sex',
-    'value' : "M",
-    'Ref' : 'Height',
-    'plot' : True
-}
-analyse(request)
+     
+
+UI()
