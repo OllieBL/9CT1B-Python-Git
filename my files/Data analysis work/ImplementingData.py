@@ -1,7 +1,6 @@
 # Import modules
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
 # imports data
 olympics_df = pd.read_csv('my files/Data analysis work/athlete_events.csv')
@@ -16,41 +15,50 @@ def analyse(request):
     category = request['category']
     value = request['value']
     option = request['option']
-    numRef = request['numRef']
+    Ref = request['Ref']
     plot = request['plot']
     global olympics_df
     counter = []
 
-    #olympics_df = olympics_df[olympics_df[category] == value]
-    olympics_df.dropna(subset=[request['numRef']])
+    if request['sort'] == True:
+        olympics_df = olympics_df[olympics_df[category] == value]
+    olympics_df.dropna(subset=[request['Ref']]) 
+    checker = olympics_df
     if option == 'mean':
-        mean = olympics_df[numRef].mean()
+        mean = olympics_df[Ref].mean()
         output = mean
     elif option == 'median':
-        median = olympics_df[numRef].median()
+        median = olympics_df[Ref].median()
         output = median
     if plot == True:
-        for i in olympics_df.NOC.unique():
-            c = olympics_df[olympics_df['NOC'] == i]
+        if type(olympics_df[Ref].values[0]) == int or type(olympics_df[Ref].values[0]) == float:
+            checker =  pd.cut(olympics_df[Ref], 10, labels=False)
+            print(checker)
+        for i in checker[Ref].unique():
+            c = checker[checker[Ref] == i]
             c = c[c['Medal'] == 'Gold']
             if len(c) != 0:
                 counter.append(int(c['Medal'].value_counts()['Gold']))
             else:
                 counter.append(0)
-        print(counter)
-        plt.bar(olympics_df.NOC.unique(),counter)
+        dict = {'counter' : counter, 'sort' : checker.Height.unique()}
+        df = pd.DataFrame(dict)
+        df.sort_values(by=['counter'], ascending=False, inplace=True)
+        df = df.head(10)
+        plt.bar(df['sort'], df['counter'])
         plt.show()
     return output
      
-        
-    
+def UI():
+    input('calculations?')
+    input('median or  ')  
 
 request = {
     'option' : 'median',
-    'category' : 'NOC',
-    'value' : 'AUT',
-    'numRef' : 'Height',
-    'plot' : True,
-    'plotType' : 'scatter'
+    'sort' : True,
+    'category' : 'Sex',
+    'value' : "M",
+    'Ref' : 'Height',
+    'plot' : True
 }
 analyse(request)
