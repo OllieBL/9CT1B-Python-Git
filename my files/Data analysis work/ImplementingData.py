@@ -19,8 +19,9 @@ def analyse(request):
     numRef = request['numRef']
     plot = request['plot']
     global olympics_df
+    counter = []
 
-    olympics_df = olympics_df[olympics_df[category] == value]
+    #olympics_df = olympics_df[olympics_df[category] == value]
     olympics_df.dropna(subset=[request['numRef']])
     if option == 'mean':
         mean = olympics_df[numRef].mean()
@@ -29,17 +30,15 @@ def analyse(request):
         median = olympics_df[numRef].median()
         output = median
     if plot == True:
-        olympics_df.plot(
-            kind='scatter',
-            x='Year',
-            y='Height',
-            color='blue',
-            alpha=0.3,
-            title='Height over time for athletes'
-            )
-        z = np.polyfit(olympics_df['Year'], olympics_df['Height'], 1)
-        p = np.poly1d(z)
-        plt.plot(olympics_df['Year'], p(olympics_df['Year']))
+        for i in olympics_df.NOC.unique():
+            c = olympics_df[olympics_df['NOC'] == i]
+            c = c[c['Medal'] == 'Gold']
+            if len(c) != 0:
+                counter.append(int(c['Medal'].value_counts()['Gold']))
+            else:
+                counter.append(0)
+        print(counter)
+        plt.bar(olympics_df.NOC.unique(),counter)
         plt.show()
     return output
      
