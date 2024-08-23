@@ -21,7 +21,7 @@ def analyse(request):
     global olympics_df
     counter = []
 
-    if request['sort'] == True:
+    if bool(request['sort']) == True:
         olympics_df = olympics_df[olympics_df[category] == value]
     olympics_df.dropna(subset=[request['Ref']]) 
     checker = olympics_df
@@ -87,10 +87,7 @@ def UI():
     while True:
         if filter == 'True' and type(category) == str:
             value = input('What value do you want to sort with? ')
-            if (olympics_df == value).any().any():
-                break
-            else:
-                print('please enter a valid option')
+            break
         else:
             break
     while True: 
