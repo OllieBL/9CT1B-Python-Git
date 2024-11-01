@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.0">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="oliver.black4"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2024-11-01 03:06:51 PM"/>
+        <attribute name="created" value="b2xpdmVyLmJsYWNrNDsgMDRDRjRCQjJEMDIyUDsgMjAyNC0xMS0wMTsgMDI6NDg6MjQgUE07IDM0MDI="/>
+        <attribute name="edited" value="b2xpdmVyLmJsYWNrNDsgMDRDRjRCQjJEMDIyUDsgMjAyNC0xMS0wMTsgMDM6MDY6NTEgUE07IDMzOTc="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="moveableLocation" type="Boolean" array="False" size="" variables="moveableLocation"/>
+            <while expression="destination != moveableLocation">
+                <declare name="destination" type="Integer" array="False" size="" variables="destination"/>
+            </while>
+            <declare name="enemyLocation" type="Boolean" array="False" size="" variables="enemyLocation"/>
+            <if expression="destination == enemyLocation">
+                <then/>
+                <else/>
+            </if>
+        </body>
+    </function>
+</flowgorithm>
