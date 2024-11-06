@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.0">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="oliver.black4"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2024-11-06 11:48:56 AM"/>
+        <attribute name="created" value="b2xpdmVyLmJsYWNrNDsgMDRDRjRCQjJEMDIyUDsgMjAyNC0xMS0wMTsgMDI6NDg6MjQgUE07IDM0MDI="/>
+        <attribute name="edited" value="b2xpdmVyLmJsYWNrNDsgMDRDRjRCQjJEMDIyUDsgMjAyNC0xMS0wNjsgMTE6NDg6NTYgQU07IDMzOTc="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="MoveableLocation" type="Boolean" array="False" size="" variables="MoveableLocation"/>
+            <declare name="Destination" type="Integer" array="False" size="" variables="Destination"/>
+            <declare name="UnitLocation" type="Integer" array="False" size="" variables="UnitLocation"/>
+            <while expression="Destination != MoveableLocation">
+                <input variable="PlayerChoice"/>
+                <declare name="Destination" type="Integer" array="False" size="" variables="Destination"/>
+            </while>
+            <declare name="EnemyLocation" type="Boolean" array="False" size="" variables="EnemyLocation"/>
+            <if expression="Destination == EnemyLocation">
+                <then>
+                    <call expression="FightEnemy"/>
+                    <if expression="EnemyAlive==False">
+                        <then>
+                            <assign variable="UnitLocation" expression="Destination"/>
+                        </then>
+                        <else/>
+                    </if>
+                </then>
+                <else>
+                    <assign variable="UnitLocation" expression="Destination"/>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="FightEnemy" type="String" variable="CombatResult">
+        <parameters>
+            <parameter name="EnemyBonuses" type="Integer" array="True"/>
+            <parameter name="PlayerBonuses" type="Integer" array="True"/>
+            <parameter name="EnemyAttack" type="Integer" array="False"/>
+            <parameter name="PlayerAttack" type="Integer" array="False"/>
+            <parameter name="EnemyHealth" type="Integer" array="False"/>
+            <parameter name="PlayerHealth" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="PlayerDamage" type="Integer" array="False" size="" variables="PlayerDamage"/>
+            <declare name="EnemyDamage" type="Integer" array="False" size="" variables="EnemyDamage"/>
+            <declare name="PlayerAlive" type="Boolean" array="False" size="" variables="PlayerAlive"/>
+            <declare name="EnemyAlive" type="Boolean" array="False" size="" variables="EnemyAlive"/>
+            <declare name="CombatResult" type="Integer" array="True" size="4" variables="CombatResult[4]"/>
+            <assign variable="PlayerDamage" expression="EnemyAttack+EnemyBonuses-((PlayerAttack+PlayerBonuses)/2)"/>
+            <assign variable="EnemyDamage" expression="PlayerAttack+PlayerBonuses-((EnemyAttack+EnemyBonuses)/2)"/>
+            <assign variable="PlayerHealth" expression="PlayerHealth-PlayerDamage"/>
+            <assign variable="EnemyHealth" expression="EnemyHealth-EnemyDamage"/>
+            <if expression="EnemyHealth&lt;=0">
+                <then>
+                    <assign variable="EnemyAlive" expression="False"/>
+                </then>
+                <else>
+                    <assign variable="EnemyAlive" expression="True"/>
+                </else>
+            </if>
+            <if expression="PlayerHealth&lt;=0">
+                <then>
+                    <assign variable="PlayerAlive" expression="False"/>
+                </then>
+                <else>
+                    <assign variable="PlayerAlive" expression="True"/>
+                </else>
+            </if>
+            <assign variable="CombatResult" expression="&quot;(EnemyHealth, PlayerHealth, EnemyAlive, PlayerAlive)&quot;"/>
+        </body>
+    </function>
+</flowgorithm>
